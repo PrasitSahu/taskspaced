@@ -2,17 +2,21 @@
 import ThemeToggle from "@/components/themeToogle";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Header = () => {
-  const [height, setHeight] = useState(window.scrollY);
-  window.onscroll = () => {
-    setHeight(window.scrollY);
-  };
+  const [height, setHeight] = useState(0);
+  useEffect(() => {
+    window.onscroll = () => {
+      setHeight(window.scrollY);
+    };
+  }, []);
   return (
     <header
       className={`px-10 sticky top-0 w-full z-10 ${
-        height === 0 ? "bg-background" : "bg-primary-foreground"
+        height === 0
+          ? "bg-background"
+          : "bg-primary-foreground dark:shadow-none shadow-md shadow-gray-300"
       }`}
     >
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center gap-3">
@@ -20,17 +24,17 @@ const Header = () => {
           <span className="ml-3 text-xl ">TaskSpaced</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <Link className="mr-5 hover:opacity-75" href="/">
-            Home
+          <Link className="mr-5 hover:opacity-75" href="/find-jobs">
+            Find Jobs
           </Link>
           <Link className="mr-5 hover:opacity-75" href="/contact">
             Contact Us
           </Link>
-          <Link className="mr-5 hover:opacity-75" href="/">
+          {/* <Link className="mr-5 hover:opacity-75" href="/">
             Third Link
-          </Link>
+          </Link> */}
           <Link className="mr-5 hover:opacity-75" href="/">
-            Fourth Link
+            About Us
           </Link>
         </nav>
         <ThemeToggle />
