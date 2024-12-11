@@ -5,6 +5,7 @@ import Hero from "./landing/Hero";
 import "@/app/landing/landing.css";
 import TopFreelancers from "./landing/TopFreelancers";
 import Steps from "./landing/Steps";
+import Testimonial from "./landing/Testimonial";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Features />
       <Steps />
       <TopFreelancers />
+      <Testimonial />
       <Footer />
     </>
   );
