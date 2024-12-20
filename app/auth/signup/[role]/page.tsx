@@ -17,7 +17,7 @@ const SignupPage = ({ params: { role } }: Props) => {
         <h1 className="text-3xl">Create an Account</h1>
         <p>Enter your credentials below to create an account</p>
       </div>
-        <EmailSection />
+      <EmailSection role={role} />
       <FormSocialSeparator />
       <SocialLogins
         providers={[

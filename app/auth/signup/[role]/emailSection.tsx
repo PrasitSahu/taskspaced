@@ -2,15 +2,34 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { Role } from "../page";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { redirect } from "next/navigation";
 
 interface Props {
   className?: string;
   onChange?: (view: boolean) => void;
+  role: Role;
 }
 
-const EmailSection = ({ className, onChange }: Props) => {
+enum Gender {
+  male = "male",
+  famale = "female",
+  others = "others",
+}
+
+const EmailSection = ({ className, onChange, role }: Props) => {
   const [show, setShow] = useState<boolean>(false);
   const [isEmailView, setEmailView] = useState<boolean>(true);
 
@@ -18,13 +37,28 @@ const EmailSection = ({ className, onChange }: Props) => {
   const [password, setPassword] = useState<string>();
   const [cPassword, setCPassword] = useState<string>();
   const [emailValidity, setEmailValidity] = useState<boolean>(false);
+  const [gender, setGender] = useState<Gender>();
 
   useEffect(() => {
     onChange?.(isEmailView);
   }, [isEmailView]);
 
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const res = await axios.put(`${location.origin}/auth`, {
+      email,
+      password,
+      role,
+      gender,
+    });
+
+    if (res.status === 201) {
+      redirect("/auth/login");
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className={`${isEmailView ? "flex" : "hidden"} flex-col gap-3`}>
         <Input
           type="email"
@@ -52,6 +86,18 @@ const EmailSection = ({ className, onChange }: Props) => {
           !isEmailView ? "flex" : "hidden"
         } flex-col gap-3 ${className}`}
       >
+        <Select onValueChange={(val: Gender) => setGender(val)} required>
+          <SelectTrigger>
+            <SelectValue placeholder="Select your gender"></SelectValue>
+          </SelectTrigger>
+          <SelectGroup>
+            <SelectContent>
+              <SelectItem value={Gender.male}>{Gender.male}</SelectItem>
+              <SelectItem value={Gender.famale}>{Gender.famale}</SelectItem>
+              <SelectItem value={Gender.others}>{Gender.others}</SelectItem>
+            </SelectContent>
+          </SelectGroup>
+        </Select>
         <div className="flex flex-row -space-x-8 items-center">
           <Input
             type={show ? "text" : "password"}
@@ -61,7 +107,7 @@ const EmailSection = ({ className, onChange }: Props) => {
             required
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
-            pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]$/"
+            pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/"
           />
           <Button
             variant={"ghost"}
@@ -79,7 +125,10 @@ const EmailSection = ({ className, onChange }: Props) => {
           value={cPassword}
           onChange={(e) => setCPassword(e.currentTarget.value)}
         />
-        <Button type="submit" disabled={password !== cPassword || !cPassword}>
+        <Button
+          type="submit"
+          disabled={!cPassword || password !== cPassword || !gender}
+        >
           Sign In
         </Button>
         <Button

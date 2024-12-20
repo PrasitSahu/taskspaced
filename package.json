@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-schema": "drizzle-kit generate",
+    "db-migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^10.0.0",
@@ -23,7 +25,7 @@
     "drizzle-orm": "^0.38.2",
     "lucide-react": "^0.453.0",
     "next": "14.2.15",
-    "pg": "^8.13.1",
+    "postgres": "^3.4.5",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.4",

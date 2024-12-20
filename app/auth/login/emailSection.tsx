@@ -18,6 +18,7 @@ const EmailSection = ({ className, onChange }: Props) => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [emailValidity, setEmailValidity] = useState<boolean>(false);
+  const [passwordValidity, setPasswordValidity] = useState<boolean>(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,6 +45,7 @@ const EmailSection = ({ className, onChange }: Props) => {
             setEmail(e.currentTarget.value);
             setEmailValidity(e.currentTarget.validity.valid);
           }}
+          pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/"
         />
         <Button
           onClick={() => {
@@ -68,7 +70,10 @@ const EmailSection = ({ className, onChange }: Props) => {
             placeholder="Enter a password"
             required
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={(e) => {
+              setPassword(e.currentTarget.value);
+              setPasswordValidity(e.currentTarget.validity.valid);
+            }}
           />
           <Button
             variant={"ghost"}
@@ -80,7 +85,9 @@ const EmailSection = ({ className, onChange }: Props) => {
           </Button>
         </div>
 
-        <Button type="submit">Sign In</Button>
+        <Button type="submit" disabled={!passwordValidity}>
+          Sign In
+        </Button>
         <Button
           variant={"outline"}
           onClick={() => {
