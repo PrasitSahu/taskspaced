@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -8,18 +7,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-interface Transacion {
-  id: number;
-  amount: number;
-  send_date: Date;
-  receive_date: Date;
-  payer_id: number;
-  payee_id: number;
-  status: "success" | "fail" | "pending";
-  note: string;
-}
-
-const transaction = pgTable("transactions", {
+const transactionTable = pgTable("transactions", {
   id: serial().primaryKey(),
   amount: real().notNull(),
   send_date: timestamp().defaultNow(),
@@ -29,3 +17,5 @@ const transaction = pgTable("transactions", {
   status: text({ enum: ["success", "fail", "pending"] }).notNull(),
   note: text(),
 });
+
+export default transactionTable;
