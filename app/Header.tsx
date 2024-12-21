@@ -24,8 +24,8 @@ const Header = () => {
           <span className="ml-3 text-xl ">TaskSpaced</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <Link className="mr-5 hover:opacity-75" href="/find-jobs">
-            Find Jobs
+          <Link className="mr-5 hover:opacity-75" href="/home">
+            Home
           </Link>
           <Link className="mr-5 hover:opacity-75" href="/contact">
             Contact Us

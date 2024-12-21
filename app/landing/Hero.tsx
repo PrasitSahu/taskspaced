@@ -20,11 +20,13 @@ const Hero = () => {
             <Button>Get Started</Button>
           </div>
         </div>
-        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 h-[600px]">
           <img
             className="object-cover object-center rounded"
             alt="hero"
-            src="https://dummyimage.com/720x600"
+            src={
+              "https://schoolforfreelancers.com/wp-content/uploads/2023/10/young-woman-freelancer-working-in-a-coffeehouse-u-2023-06-07-17-57-09-utc.jpg"
+            }
           />
         </div>
       </div>

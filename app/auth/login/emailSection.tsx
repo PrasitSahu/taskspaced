@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Props {
   className?: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const EmailSection = ({ className, onChange }: Props) => {
+  const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
   const [isEmailView, setEmailView] = useState<boolean>(true);
 
@@ -20,12 +22,16 @@ const EmailSection = ({ className, onChange }: Props) => {
   const [emailValidity, setEmailValidity] = useState<boolean>(false);
   const [passwordValidity, setPasswordValidity] = useState<boolean>(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    axios.post(`${location.origin}/auth`, {
+    const res = await axios.post(`${location.origin}/auth`, {
       email,
       password,
     });
+
+    if (res.status === 202) {
+      router.push("/home");
+    }
   }
 
   useEffect(() => {

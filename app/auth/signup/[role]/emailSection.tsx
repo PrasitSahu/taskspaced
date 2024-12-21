@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Role } from "../page";
 import {
   Select,
@@ -15,7 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Sonner from "./sonner";
+import { toast } from "sonner";
 
 interface Props {
   className?: string;
@@ -30,6 +32,7 @@ enum Gender {
 }
 
 const EmailSection = ({ className, onChange, role }: Props) => {
+  const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
   const [isEmailView, setEmailView] = useState<boolean>(true);
 
@@ -45,6 +48,10 @@ const EmailSection = ({ className, onChange, role }: Props) => {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setEmail(undefined);
+    setPassword(undefined);
+    setGender(undefined);
+
     const res = await axios.put(`${location.origin}/auth`, {
       email,
       password,
@@ -52,9 +59,8 @@ const EmailSection = ({ className, onChange, role }: Props) => {
       gender,
     });
 
-    if (res.status === 201) {
-      redirect("/auth/login");
-    }
+    alert("account created successfully");
+    router.push("/auth/login");
   }
 
   return (
